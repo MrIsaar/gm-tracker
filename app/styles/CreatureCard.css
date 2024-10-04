@@ -1,8 +1,11 @@
+input {
+    color: rgb(29, 29, 29);
+}
 .creature-card {
     border: 2px solid #000;
     border-radius: 8px;
     padding: 20px;
-    background: linear-gradient(135deg, #21003f 0%, #360024 100%);
+    background: linear-gradient(135deg, #850085 0%, #000000 100%);
 }
 
 .creature-card-grid {
@@ -51,4 +54,16 @@
 .armor-class {
     grid-column: 4 / 5;
     grid-row: 2 / 3;
+}
+
+.delete-button {
+    grid-column: 4 / 5;
+    grid-row: 1 / 2;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
 }

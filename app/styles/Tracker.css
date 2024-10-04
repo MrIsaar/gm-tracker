@@ -1,0 +1,29 @@
+.tracker-main {
+  border-radius: 8px;
+  border: 1px solid black;
+  background: linear-gradient(135deg, #21003f 0%, #360024 100%);
+  padding: 12px;
+  width: 75%;
+}
+
+.tracker-ribbon {
+    display: flex; 
+    justify-content: right; 
+    padding: 12px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    border: 1px solid black;
+}
+
+.ribbon-button {
+    background-color: #5e0941;
+    color: white;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 8px;
+    margin-right: 8px;
+}
+
+.ribbon-button:hover {
+    background-color: #4e0636;
+}
