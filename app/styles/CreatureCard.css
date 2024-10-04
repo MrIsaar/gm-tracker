@@ -1,0 +1,54 @@
+.creature-card {
+    border: 2px solid #000;
+    border-radius: 8px;
+    padding: 20px;
+    background: linear-gradient(135deg, #21003f 0%, #360024 100%);
+}
+
+.creature-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: 10px;
+}
+
+.grid-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.name {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    display: flex;
+    align-items: center;
+}
+
+.name label {
+    margin-right: 10px;
+}
+
+.name-input {
+    flex-grow: 1;
+    width: 100%;
+}
+
+.initiative {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+
+.current-hp {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+}
+
+.max-hp {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+}
+
+.armor-class {
+    grid-column: 4 / 5;
+    grid-row: 2 / 3;
+}
