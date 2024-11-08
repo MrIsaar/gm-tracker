@@ -1,16 +1,14 @@
-"use client"
-import React, { useState } from 'react';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { useState } from 'react';
+import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
 import CreatureCard from './CreatureCard';
-import "../styles/Tracker.css"; // Import the CSS file
+import "./Tracker.css"; // Import the CSS file
 
 
 const Tracker = () => {
     const [cards, setCards] = useState<{ id: number; text: string }[]>([]);
     const [nextId, setNextId] = useState(1);
-
     const addCard = () => {
         setCards([...cards, { id: nextId, text: `Creature ${nextId}` }]);
         setNextId(nextId + 1);
