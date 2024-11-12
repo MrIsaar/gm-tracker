@@ -60,6 +60,7 @@ const CreatureCard = (props: DNDCreatureCardProps) => {
   const maxHp = useRef(null);
   const armorClass = useRef(null);
   const initiative = useRef(null);
+  const condition = useRef(null);
 
   return (
     <div
@@ -96,19 +97,22 @@ const CreatureCard = (props: DNDCreatureCardProps) => {
         <div className="stat-section">
           <div className="hp-section">
             <input className="hp-input" ref={currentHp} />
-            <p style={{ margin: "5px" }}> / </p>
+            <p style={{ marginLeft: "5px", marginRight: "5px" }}> / </p>
             <input className="hp-input" ref={maxHp} />
-            <p style={{ margin: "5px" }}> HP</p>
+            <p style={{ marginLeft: "5px" }}> HP</p>
           </div>
 
           <div className="ac-section">
             <input className="ac-input" ref={armorClass} />
-            <p style={{ margin: "5px" }}>AC</p>
+            <p style={{ marginLeft: "5px" }}>AC</p>
           </div>
           <div className="pp-section">
             <input className="pp-input" ref={armorClass} />
-            <p style={{ margin: "5px" }}>PP</p>
+            <p style={{ marginLeft: "5px" }}>PP</p>
           </div>
+        </div>
+        <div className="condition-section">
+          <input className="condition-input" ref={condition} />
         </div>
 
         <div className="button-section">

@@ -1,10 +1,9 @@
 :root {
     --var-init-width : 25px;
-    --var-init-height : 30px;
     --var-buttons-width : 30px;
     --var-buttons-height : 30px;
     --var-grid-height : 35px;
-    --var-grid-width : auto;
+    --var-grid-width : 75%;
     --var-font-small : 18px;
 }
 
@@ -64,7 +63,7 @@
 .stat-section{
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     grid-column: 2/3;
     grid-row: 2/3;
@@ -118,17 +117,40 @@
     width: var(--var-init-width);
 }
 
+.condition-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    grid-column: 2/3;
+    grid-row: 3/3;
+}
+.condition-input{
+    background-color: transparent;
+    border:lightgray 2px solid;
+    border-radius: 8px;
+    outline: none;
+    appearance: none;
+    font-size: var(--var-font-small);
+    text-align: begin;
+    flex-grow: 1;
+}
+
 .button-section{
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: space-between;
     grid-column: 3 / 3;
-    grid-row: 1 / 3;
+    grid-row: 1 / 4;
 }
 .button-remove-bg{
     outline: none;
     appearance: none;
     background-color: transparent;
     border: none;
+}
+.button-size{
+    height: var(--var-buttons-height);
+    width: var(--var-buttons-width);
 }
