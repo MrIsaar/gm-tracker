@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import "./CreatureCard.css"; // Import the CSS file
-import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+import { FaArrowDown, FaArrowUp, FaExpandAlt , FaTrashAlt  } from "react-icons/fa";
+import { Tooltip } from "react-tooltip";
 interface DNDCreatureCardProps {
   id: any;
   index: any;
@@ -27,6 +28,18 @@ const CreatureCard = (props: DNDCreatureCardProps) => {
       item.index = hoverIndex;
     },
   });
+  
+  const handleArrow = (amount : number) =>
+  {
+    if (!ref.current || (index == 0 && amount < 0)) {
+      return;
+    }
+    moveCard(index,index + amount);
+  }
+
+  const handleDelete = () => {
+    props.delteCard(id);
+  };
 
   const [{ isDragging }, drag] = useDrag({
     type: "CARD",
@@ -35,19 +48,15 @@ const CreatureCard = (props: DNDCreatureCardProps) => {
       isDragging: monitor.isDragging(),
     }),
   });
-
+  
   drag(drop(ref));
 
   const [name, setName] = useState("");
-  const [currentHp, setCurrentHp] = useState("");
-  const [maxHp, setMaxHp] = useState("");
-  const [initiative, setInitiative] = useState("");
-  const [armorClass, setArmorClass] = useState("");
-  const [roll, setRoll] = useState(0);
+  const currentHp = useRef(null);
+  const maxHp = useRef(null);
+  const armorClass = useRef(null);
+  const initiative = useRef(null);
 
-  const handleDelete = () => {
-    props.delteCard(id);
-  };
 
   return (
     <div
@@ -58,19 +67,18 @@ const CreatureCard = (props: DNDCreatureCardProps) => {
     >
       <div className="card-grid">
         <div className="init-col">
-          <div className="init-item">
+          <button className="init-item button-remove-bg" onClick={()=> handleArrow(-1)}>
             <FaArrowUp size={"large"} />
-          </div>
+          </button>
           <div className="init-item">
             <input
               className="init-item init-number-input"
-              value={initiative}
-              onChange={(e) => setInitiative(e.target.value)}
+              ref={initiative}
             />
           </div>
-          <div className="init-item">
+          <button className="init-item button-remove-bg" onClick={()=> handleArrow(1)}>
             <FaArrowDown size={"large"} />
-          </div>
+          </button>
         </div>
         <div className="name-section">
           <input
@@ -79,12 +87,39 @@ const CreatureCard = (props: DNDCreatureCardProps) => {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
+        
         <div className="hp-section">
-          <input className="hp-input" value={currentHp}/> <p style={{margin: "5px"}}> / </p> 
-          <input className="hp-input" value={maxHp}/>
-          <p style={{margin: "5px"}}> HP</p>
+          <input className="hp-input" ref={currentHp}/> 
+          <p style={{margin:"5px"}}> / </p> 
+          <input className="hp-input" ref={maxHp}/>
+          <p style={{margin:"5px"}}> HP</p>
         </div>
 
+        <div className="ac-section">
+          <input className="ac-input" ref={armorClass}/> 
+          <p style={{margin:"5px"}}>AC</p>
+        </div>
+        <div className="pp-section">
+          <input className="pp-input" ref={armorClass}/> 
+          <p style={{margin:"5px"}}>Passive Perception</p>
+        </div>
+
+
+        <div className="button-section">          
+          <a data-tooltip-id="expand-button">
+          <button className="button-remove-bg" onClick={()=>{alert("open edit dialog")}}>
+            <FaExpandAlt size={"small"} />
+          </button>
+          </a>
+          
+          <a data-tooltip-id="delete-button">
+          <button className="button-remove-bg" onClick={()=>{handleDelete()}}>
+            <FaTrashAlt size={"small"} />
+          </button>
+          <Tooltip  id="expand-button" content="Expand Creature Card"/>
+          <Tooltip  id="delete-button" content="Remove from inititive"/>
+          </a>
+        </div>
       </div>
     </div>
   );
