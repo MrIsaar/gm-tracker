@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import "./CreatureCard.css"; // Import the CSS file
-
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 interface DNDCreatureCardProps {
   id: any;
   index: any;
@@ -54,13 +54,44 @@ const CreatureCard = (props: DNDCreatureCardProps) => {
       ref={ref}
       style={{
         opacity: isDragging ? 0.9 : 1,
-        padding: "8px",
-        margin: "4px",
-        borderRadius: "4px",
       }}
     >
-      <div className="creature-card">
-        <div className="flex justify-between">
+      <div className="card-grid">
+        <div className="init-col">
+          <div className="init-item">
+            <FaArrowUp size={"large"} />
+          </div>
+          <div className="init-item">
+            <input
+              className="init-item init-number-input"
+              value={initiative}
+              onChange={(e) => setInitiative(e.target.value)}
+            />
+          </div>
+          <div className="init-item">
+            <FaArrowDown size={"large"} />
+          </div>
+        </div>
+        <div className="name-section">
+          <input
+            className="name-input"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <div className="hp-section">
+          <input className="hp-input" value={currentHp}/> <p style={{margin: "5px"}}> / </p> 
+          <input className="hp-input" value={maxHp}/>
+          <p style={{margin: "5px"}}> HP</p>
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+/**<div className="creature-card">
+      <div className="flex justify-between">
         <button className="octagon-button" onClick={ () => setRoll(Math.floor(Math.random() * 20.0) + 1)}>{roll}</button>
         <div className="flex flex-row grow mr-5 ml-5">
               <label>Name:</label>
@@ -114,8 +145,7 @@ const CreatureCard = (props: DNDCreatureCardProps) => {
           </div>
         </form>
       </div>
-    </div>
-  );
-};
+ * 
+ */
 
 export default CreatureCard;
