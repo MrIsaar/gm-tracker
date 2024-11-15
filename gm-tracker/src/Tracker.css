@@ -14,9 +14,11 @@
     border: 1px solid black;
 }
 
-.mon-option-set{
-    margin-right: 5px;
+.mon-option-set-optioncard{
+    display: flex; 
+    justify-content: space-between;
 }
+
 
 .ribbon-button {
     background-color: #5e0941;

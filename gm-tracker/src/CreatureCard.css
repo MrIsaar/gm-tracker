@@ -1,16 +1,15 @@
 :root {
-    --var-init-width : 25px;
+    --var-init-width : 30px;
     --var-input-width : 40px;
     --var-buttons-width : 30px;
     --var-buttons-height : 30px;
-    --var-grid-height : 35px;
+    --var-grid-height : 30px;
     --var-grid-width : auto;
     --var-grid-width-mobile : 90% - var(--var-buttons-width) - var(--var-init-width);
     --var-font-small : 18px;
     --var-font-medium : 24px;
     --var-font-big : 30px;
 }
-
 
 .card-grid {
     display: grid;
@@ -167,7 +166,11 @@
     height: var(--var-buttons-height);
     width: var(--var-buttons-width);
 }
-
+.align-right
+{
+    display: flex;
+    justify-content: flex-end;
+}
 
 @media (max-width: 400px) {
     .card-grid {

@@ -1,0 +1,42 @@
+:root {
+  --var-Header-height : 50px;
+  --var-Footer-height : 50px;
+  --var-font-small : 18px;
+  --var-font-medium : 24px;
+  --var-font-big : 30px;
+  height: 100%;
+}
+
+.App {
+  display: grid;
+  align-items: space-between;
+  grid-template-columns: auto;
+  grid-template-rows: var(--var-Header-height) auto var(--var-Footer-height);
+  height: 100%;
+}
+.App-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--var-Header-height);
+  width: 100%;
+  top: 0px;
+  margin-bottom: 10px;
+  background-color: #242424;
+  position: sticky;
+}
+.App-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--var-Footer-height);
+  width: 100%;
+  bottom: 0px;
+  background-color: #242424;
+  position: fixed;
+}
+@media (max-width: 400px) {
+  .App-header {
+    font-size: var(--var-font-small);
+  }
+}

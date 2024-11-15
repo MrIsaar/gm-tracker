@@ -79,7 +79,7 @@ const CreatureCard = (props: DNDCreatureCardProps) => {
             className="init-item button-remove-bg"
             onClick={() => handleArrow(-1)}
           >
-            <FaArrowUp size={"large"} />
+            <FaArrowUp size={30} />
           </button>
           <div className="init-item">
             <input className="init-item init-number-input" ref={initiative} />
@@ -88,7 +88,7 @@ const CreatureCard = (props: DNDCreatureCardProps) => {
             className="init-item button-remove-bg"
             onClick={() => handleArrow(1)}
           >
-            <FaArrowDown size={"large"} />
+            <FaArrowDown size={30} />
           </button>
         </div>
         <div className="name-section">
@@ -120,25 +120,25 @@ const CreatureCard = (props: DNDCreatureCardProps) => {
         </div>
 
         <div className="button-section">
-          <a data-tooltip-id="expand-button">
+          <a className="align-right" data-tooltip-id="expand-button">
             <button
               className="button-remove-bg"
               onClick={() => {
                 alert("open edit dialog");
               }}
             >
-              <FaExpandAlt size={"small"} />
+              <FaExpandAlt size={30}/>
             </button>
           </a>
 
-          <a data-tooltip-id="delete-button">
+          <a className="align-right" data-tooltip-id="delete-button">
             <button
               className="button-remove-bg"
               onClick={() => {
                 handleDelete();
               }}
             >
-              <FaTrashAlt size={"small"} />
+              <FaTrashAlt size={30}/>
             </button>
             <Tooltip id="expand-button" content="Expand Creature Card" />
             <Tooltip id="delete-button" content="Remove from inititive" />

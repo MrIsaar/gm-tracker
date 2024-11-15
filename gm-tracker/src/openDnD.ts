@@ -1,7 +1,8 @@
 
 // const apiURIbase = "https://api.open5e.com/"
 const apiURIMon = "https://api.open5e.com/monsters/"
-const apiURIallMonName = "https://api.open5e.com/monsters/?format=json&fields=slug,name&limit=1000&document__slug=wotc-srd"
+const apiURICondition = "https://api.open5e.com/conditions/"
+const apiURIallMonName = "https://api.open5e.com/monsters/?format=json&fields=slug,name,cr&limit=1000&document__slug=wotc-srd"
 
 
 export interface basicStats{
@@ -13,13 +14,21 @@ export interface basicStats{
 }
 
 
+export async function getConditionList() : Promise<any[]>
+{
+    const apiRes = await fetch(apiURICondition);
+    const conList = await apiRes.json();
+    console.log(conList);
+    console.log(conList.count);
+    return conList.results;
+}
 export async function getMonsterList() : Promise<any[]>
 {
     const apiRes = await fetch(apiURIallMonName);
     const monList = await apiRes.json();
     console.log(monList);
     console.log(monList.count);
-    let mons = [{"slug" : "monster", "name" : "Monster"}];
+    let mons = [{"slug" : "", "name" : "Monster"}];
     return mons.concat(monList.results);
 }
 
@@ -27,12 +36,30 @@ export async function getMonsterStats(name:string) : Promise<MonsterStat | null>
     if(name == null || name == "")
         return null;
     console.log(`requesting monster: ${name}`);
+    const recentMonName : string | null = localStorage.getItem("recentMonsterName");
+    if(recentMonName != null && recentMonName == name)
+    {
+      console.log("Using cached monster");
+      const recentMon : string | null = localStorage.getItem("recentMonster");
+      if (recentMon != null && recentMon != "")
+        return JSON.parse( recentMon);
+      else
+        console.log("Cached monster empty. Using API");
+    }
     const apiRes = await fetch(apiURIMon + name);
     const monster = await apiRes.json();
+    console.log(monster);
+    if(monster != null)
+    {
+        localStorage.setItem("recentMonsterName", name);
+        localStorage.setItem("recentMonster", JSON.stringify(monster));
+    }
     return monster;
 }
 
-export function getBasicStats(monster: any) : basicStats{
+export function getBasicStats(monster: MonsterStat | null) : basicStats{
+    if(monster == null)
+        return {name:"Monster", maxHp:0, ac:10, pp:10, notes:""};
     const perceptionMod = monster.perception ?? monster.skills?.perception ?? Math.floor((monster.wisdom - 10) / 2) ?? 0;
     const pp = perceptionMod + 10;
     const basic = {
@@ -40,7 +67,7 @@ export function getBasicStats(monster: any) : basicStats{
         maxHp:monster.hit_points,
         ac:monster.armor_class,
         pp: pp,
-        notes:"notes"
+        notes:""
     }
     console.log("Mon -> Basic");
     console.log(monster);
