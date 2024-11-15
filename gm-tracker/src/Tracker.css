@@ -14,6 +14,10 @@
     border: 1px solid black;
 }
 
+.mon-option-set{
+    margin-right: 5px;
+}
+
 .ribbon-button {
     background-color: #5e0941;
     color: white;

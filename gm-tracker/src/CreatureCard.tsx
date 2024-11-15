@@ -8,15 +8,17 @@ import {
   FaTrashAlt,
 } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
+import {basicStats} from "./openDnD";
 interface DNDCreatureCardProps {
   id: any;
   index: any;
   moveCard: any;
   delteCard: any;
+  basicStats: basicStats | null;
 }
 
 const CreatureCard = (props: DNDCreatureCardProps) => {
-  const { id, index, moveCard } = props;
+  const { id, index, moveCard, delteCard, basicStats } = props;
   const ref = React.useRef(null);
   const [, drop] = useDrop({
     accept: "CARD",
@@ -42,7 +44,7 @@ const CreatureCard = (props: DNDCreatureCardProps) => {
   };
 
   const handleDelete = () => {
-    props.delteCard(id);
+    delteCard(id);
   };
 
   const [{ isDragging }, drag] = useDrag({
@@ -55,12 +57,14 @@ const CreatureCard = (props: DNDCreatureCardProps) => {
 
   drag(drop(ref));
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState(basicStats?.name);
   const currentHp = useRef(null);
   const maxHp = useRef(null);
   const armorClass = useRef(null);
+  const passivePerception = useRef(null);
   const initiative = useRef(null);
   const condition = useRef(null);
+
 
   return (
     <div
@@ -96,23 +100,23 @@ const CreatureCard = (props: DNDCreatureCardProps) => {
         </div>
         <div className="stat-section">
           <div className="hp-section">
-            <input className="hp-input" ref={currentHp} />
+              <input className="hp-input" ref={currentHp} defaultValue={basicStats?.maxHp ?? 0}/>
             <p style={{ marginLeft: "5px", marginRight: "5px" }}> / </p>
-            <input className="hp-input" ref={maxHp} />
+            <input className="hp-input" ref={maxHp} defaultValue={basicStats?.maxHp ?? 0} />
             <p style={{ marginLeft: "5px" }}> HP</p>
           </div>
 
           <div className="ac-section">
-            <input className="ac-input" ref={armorClass} />
+            <input className="ac-input" ref={armorClass} defaultValue={basicStats?.ac ?? 10} />
             <p style={{ marginLeft: "5px" }}>AC</p>
           </div>
           <div className="pp-section">
-            <input className="pp-input" ref={armorClass} />
+            <input className="pp-input" ref={passivePerception}  defaultValue={basicStats?.pp ?? 10}/>
             <p style={{ marginLeft: "5px" }}>PP</p>
           </div>
         </div>
         <div className="condition-section">
-          <input className="condition-input" ref={condition} />
+          <input className="condition-input" ref={condition} defaultValue={basicStats?.notes ?? ""} />
         </div>
 
         <div className="button-section">
