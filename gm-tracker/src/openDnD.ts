@@ -1,191 +1,228 @@
-
 // const apiURIbase = "https://api.open5e.com/"
-const apiURIMon = "https://api.open5e.com/monsters/"
-const apiURICondition = "https://api.open5e.com/conditions/"
-const apiURIallMonName = "https://api.open5e.com/monsters/?format=json&fields=slug,name,cr&limit=1000&document__slug=wotc-srd"
+const apiURIMon = "https://api.open5e.com/monsters/";
+const apiURICondition = "https://api.open5e.com/conditions/";
+const apiURIallMonName =
+  "https://api.open5e.com/monsters/?format=json&fields=slug,name,cr&limit=1000&document__slug=wotc-srd";
+const apiURIMonNameSource =
+  "https://api.open5e.com/monsters/?format=json&fields=slug,name,cr&limit=1000&document__slug=";
 
+export const openDnDsources : open5eSource[] = [
+  { document__slug: "wotc-srd", document__title: "5e Core Rules" },
+  { document__slug: "blackflag", document__title: "Black Flag SRD" },
+  { document__slug: "tob", document__title: "Tome of Beasts" },
+  { document__slug: "tob2", document__title: "Tome of Beasts 2" },
+  { document__slug: "tob3", document__title: "Tome of Beasts 3" },
+  { document__slug: "tob-2023", document__title: "Tome of Beasts 2023" },
+  { document__slug: "cc", document__title: "Creature Codex" },
+  {
+    document__slug: "menagerie",
+    document__title: "Level Up Advanced 5e Monstrous Menagerie",
+  },
+];
 
-export interface basicStats{
-    name:string;
-    maxHp:number;
-    ac:number; 
-    pp: number;
-    notes:string
+export interface open5eSource {
+  document__slug: string;
+  document__title: string;
 }
 
+export interface basicStats {
+  name: string;
+  maxHp: number;
+  ac: number;
+  pp: number;
+  notes: string;
+}
 
-export async function getConditionList() : Promise<any[]>
+export function getSourceDisplayName(sourceSlug : string)
 {
-    const apiRes = await fetch(apiURICondition);
-    const conList = await apiRes.json();
-    console.log(conList);
-    console.log(conList.count);
-    return conList.results;
-}
-export async function getMonsterList() : Promise<any[]>
-{
-    const apiRes = await fetch(apiURIallMonName);
-    const monList = await apiRes.json();
-    console.log(monList);
-    console.log(monList.count);
-    let mons = [{"slug" : "", "name" : "Monster"}];
-    return mons.concat(monList.results);
+  return openDnDsources.filter((src) => src.document__slug == sourceSlug)[0]?.document__title
 }
 
-export async function getMonsterStats(name:string) : Promise<MonsterStat | null>{
-    if(name == null || name == "")
-        return null;
-    console.log(`requesting monster: ${name}`);
-    const recentMonName : string | null = localStorage.getItem("recentMonsterName");
-    if(recentMonName != null && recentMonName == name)
-    {
-      console.log("Using cached monster");
-      const recentMon : string | null = localStorage.getItem("recentMonster");
-      if (recentMon != null && recentMon != "")
-        return JSON.parse( recentMon);
-      else
-        console.log("Cached monster empty. Using API");
+export async function getConditionList(): Promise<any[]> {
+  const apiRes = await fetch(apiURICondition);
+  const conList = await apiRes.json();
+  console.log(conList);
+  console.log(conList.count);
+  return conList.results;
+}
+export async function getMonsterList(): Promise<any[]> {
+  const apiRes = await fetch(apiURIallMonName);
+  const monList = await apiRes.json();
+  console.log(monList);
+  console.log(monList.count);
+  let mons = [{ slug: "", name: "Monster" }];
+  return mons.concat(monList.results);
+}
+
+export async function getMonsterListSourced(sources : string[])  : Promise<MonsterList[]>  {
+  let monstersBySource : Promise<MonsterList>[] = sources.map(async (src) => {
+      console.log(src);
+      const apiRes = await fetch(apiURIMonNameSource+src);
+      const monList = await apiRes.json();
+      console.log(monList.count);
+      console.log(monList);
+      return {source: getSourceDisplayName(src),count: monList.count,monsters: monList.results}
     }
-    const apiRes = await fetch(apiURIMon + name);
-    const monster = await apiRes.json();
-    console.log(monster);
-    if(monster != null)
-    {
-        localStorage.setItem("recentMonsterName", name);
-        localStorage.setItem("recentMonster", JSON.stringify(monster));
-    }
-    return monster;
+  );
+  return await Promise.all(monstersBySource);
 }
 
-export function getBasicStats(monster: MonsterStat | null) : basicStats{
-    if(monster == null)
-        return {name:"Monster", maxHp:0, ac:10, pp:10, notes:""};
-    const perceptionMod = monster.perception ?? monster.skills?.perception ?? Math.floor((monster.wisdom - 10) / 2) ?? 0;
-    const pp = perceptionMod + 10;
-    const basic = {
-        name: monster.name,
-        maxHp:monster.hit_points,
-        ac:monster.armor_class,
-        pp: pp,
-        notes:""
-    }
-    console.log("Mon -> Basic");
-    console.log(monster);
-    console.log(basic);
-    return basic;
+export async function getMonsterStats(
+  name: string
+): Promise<MonsterStat | null> {
+  if (name == null || name == "") return null;
+  console.log(`requesting monster: ${name}`);
+  const recentMonName: string | null =
+    localStorage.getItem("recentMonsterName");
+  if (recentMonName != null && recentMonName == name) {
+    console.log("Using cached monster");
+    const recentMon: string | null = localStorage.getItem("recentMonster");
+    if (recentMon != null && recentMon != "") return JSON.parse(recentMon);
+    else console.log("Cached monster empty. Using API");
+  }
+  const apiRes = await fetch(apiURIMon + name);
+  const monster = await apiRes.json();
+  console.log(monster);
+  if (monster != null) {
+    localStorage.setItem("recentMonsterName", name);
+    localStorage.setItem("recentMonster", JSON.stringify(monster));
+  }
+  return monster;
 }
 
+export function getBasicStats(monster: MonsterStat | null): basicStats {
+  if (monster == null)
+    return { name: "Monster", maxHp: 0, ac: 10, pp: 10, notes: "" };
+  const pp = monster.perception ?? ((monster.skills?.perception ??
+    Math.floor((monster.wisdom - 10) / 2) ??
+    0) + 10);
+  const basic = {
+    name: monster.name,
+    maxHp: monster.hit_points,
+    ac: monster.armor_class,
+    pp: pp,
+    notes: "",
+  };
+  console.log("Mon -> Basic");
+  console.log(monster);
+  console.log(basic);
+  return basic;
+}
 
-  
-  export interface MonsterStat {
-    slug: string
-    desc: string
-    name: string
-    size: string
-    type: string
-    subtype: string
-    group?: string
-    alignment: string
-    armor_class: number
-    armor_desc?: string
-    hit_points: number
-    hit_dice: string
-    speed: Speed
-    strength: number
-    dexterity: number
-    constitution: number
-    intelligence: number
-    wisdom: number
-    charisma: number
-    strength_save?: number
-    dexterity_save?: number
-    constitution_save?: number
-    intelligence_save?: number
-    wisdom_save?: number
-    charisma_save?: number
-    perception?: number
-    skills: Skills
-    damage_vulnerabilities: string
-    damage_resistances: string
-    damage_immunities: string
-    condition_immunities: string
-    senses: string
-    languages: string
-    challenge_rating: string
-    cr: number
-    actions?: Action[]
-    bonus_actions: any
-    reactions?: Reaction[]
-    legendary_desc: string
-    legendary_actions?: LegendaryAction[]
-    special_abilities?: SpecialAbility[]
-    spell_list: string[]
-    page_no: number
-    environments: string[]
-    img_main?: string
-    document__slug: string
-    document__title: string
-    document__license_url: string
-    document__url: string
-  }
-  
-  export interface Speed {
-    walk?: number
-    swim?: number
-    fly?: number
-    burrow?: number
-    climb?: number
-    hover?: boolean
-    notes?: string
-  }
-  
-  export interface Skills {
-    history?: number
-    perception?: number
-    medicine?: number
-    religion?: number
-    stealth?: number
-    persuasion?: number
-    insight?: number
-    deception?: number
-    arcana?: number
-    athletics?: number
-    acrobatics?: number
-    survival?: number
-    investigation?: number
-    nature?: number
-    intimidation?: number
-    performance?: number
-  }
-  
-  export interface Action {
-    name: string
-    desc: string
-    attack_bonus?: number
-    damage_dice?: string
-    damage_bonus?: number
-  }
-  
-  export interface Reaction {
-    name: string
-    desc: string
-  }
-  
-  export interface LegendaryAction {
-    name: string
-    desc: string
-    attack_bonus?: number
-    damage_dice?: string
-  }
-  
-  export interface SpecialAbility {
-    name: string
-    desc: string
-    attack_bonus?: number
-    damage_dice?: string
-  }
-  
-  
+export interface MonsterList{
+  source:string ;
+  count: number;
+  monsters: MonsterStat[];
+}
+
+export interface MonsterStat {
+  slug: string;
+  desc: string;
+  name: string;
+  size: string;
+  type: string;
+  subtype: string;
+  group?: string;
+  alignment: string;
+  armor_class: number;
+  armor_desc?: string;
+  hit_points: number;
+  hit_dice: string;
+  speed: Speed;
+  strength: number;
+  dexterity: number;
+  constitution: number;
+  intelligence: number;
+  wisdom: number;
+  charisma: number;
+  strength_save?: number;
+  dexterity_save?: number;
+  constitution_save?: number;
+  intelligence_save?: number;
+  wisdom_save?: number;
+  charisma_save?: number;
+  perception?: number;
+  skills: Skills;
+  damage_vulnerabilities: string;
+  damage_resistances: string;
+  damage_immunities: string;
+  condition_immunities: string;
+  senses: string;
+  languages: string;
+  challenge_rating: string;
+  cr: number;
+  actions?: Action[];
+  bonus_actions: any;
+  reactions?: Reaction[];
+  legendary_desc: string;
+  legendary_actions?: LegendaryAction[];
+  special_abilities?: SpecialAbility[];
+  spell_list: string[];
+  page_no: number;
+  environments: string[];
+  img_main?: string;
+  document__slug: string;
+  document__title: string;
+  document__license_url: string;
+  document__url: string;
+}
+
+export interface Speed {
+  walk?: number;
+  swim?: number;
+  fly?: number;
+  burrow?: number;
+  climb?: number;
+  hover?: boolean;
+  notes?: string;
+}
+
+export interface Skills {
+  history?: number;
+  perception?: number;
+  medicine?: number;
+  religion?: number;
+  stealth?: number;
+  persuasion?: number;
+  insight?: number;
+  deception?: number;
+  arcana?: number;
+  athletics?: number;
+  acrobatics?: number;
+  survival?: number;
+  investigation?: number;
+  nature?: number;
+  intimidation?: number;
+  performance?: number;
+}
+
+export interface Action {
+  name: string;
+  desc: string;
+  attack_bonus?: number;
+  damage_dice?: string;
+  damage_bonus?: number;
+}
+
+export interface Reaction {
+  name: string;
+  desc: string;
+}
+
+export interface LegendaryAction {
+  name: string;
+  desc: string;
+  attack_bonus?: number;
+  damage_dice?: string;
+}
+
+export interface SpecialAbility {
+  name: string;
+  desc: string;
+  attack_bonus?: number;
+  damage_dice?: string;
+}
+
 // function parseMon (preset) {
 //     // Name and type
 //     mon.name = preset.name.trim();

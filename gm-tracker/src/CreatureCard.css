@@ -199,6 +199,16 @@
         grid-column: 1/2;
         grid-row: 2/end;
     }
+    .base-stat-section{
+        display: flex;
+        flex-direction: row;
+    }
+    .base-stat{
+        border:lightgray 2px solid;
+        border-radius: 5px;
+    }
+
+
     .pp-section{
         display: flex;
         flex-direction: row;
