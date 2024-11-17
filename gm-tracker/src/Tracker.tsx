@@ -7,8 +7,6 @@ import {
     MonsterList,
     getMonsterListSourced,
   getMonsterStats,
-  getBasicStats,
-  basicStats,
   getConditionList,
   openDnDsources,
   getSourceDisplayName,
@@ -159,6 +157,7 @@ const Tracker = () => {
               </button>
             </div>
           </div>
+          <div className="scroll">
           {cards.map((card, index) => (
             <CreatureCard
               key={card.id}
@@ -169,6 +168,7 @@ const Tracker = () => {
               stats={card.stats}
             />
           ))}
+          </div>
         </div>
       </FluentProvider>
     </DndProvider>

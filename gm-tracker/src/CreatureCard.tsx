@@ -106,62 +106,84 @@ const CreatureCard = (props: DNDCreatureCardProps) => {
         </div>
         <div className="stat-section">
           <div className="hp-section">
-            <input
-              className="hp-input"
-              ref={currentHp}
-              defaultValue={stats?.hit_points ?? 0}
-            />
-            <p style={{ marginLeft: "5px", marginRight: "5px" }}> / </p>
-            <input
-              className="hp-input"
-              ref={maxHp}
-              defaultValue={stats?.hit_points ?? 0}
-            />
-            <p style={{ marginLeft: "5px" }}> HP</p>
+          <p className="stat-label"> HP</p>
+            <div className="row-flex">
+              
+              <input
+                className="hp-input"
+                ref={currentHp}
+                defaultValue={stats?.hit_points ?? 0}
+              />
+              <p className="hp-slash"> / </p>
+              <input
+                className="hp-input"
+                ref={maxHp}
+                defaultValue={stats?.hit_points ?? 0}
+              />
+            </div>
           </div>
 
           <div className="ac-section">
+            <p className="stat-label">AC</p>
             <input
               className="ac-input"
               ref={armorClass}
               defaultValue={stats?.armor_class ?? 10}
             />
-            <p style={{ marginLeft: "5px" }}>AC</p>
           </div>
           <div className="base-stat-section">
+            Saves
             <div className="base-stat">
-              <p>STR save</p>
-              <input className="ac-input" defaultValue={stats?.strength_save ?? 0}></input>
+              <p className="stat-label">STR</p>
+              <input
+                className="stat-input"
+                defaultValue={stats?.strength_save ?? 0}
+              ></input>
             </div>
             <div className="base-stat">
-              <p>DEX save</p>
-              <input className="ac-input" defaultValue={stats?.dexterity_save ?? 0}></input>
+              <p className="stat-label">DEX</p>
+              <input
+                className="stat-input"
+                defaultValue={stats?.dexterity_save ?? 0}
+              ></input>
             </div>
             <div className="base-stat">
-              <p>CON save</p>
-              <input className="ac-input" defaultValue={stats?.constitution_save ?? 0}></input>
+              <p className="stat-label">CON</p>
+              <input
+                className="stat-input"
+                defaultValue={stats?.constitution_save ?? 0}
+              ></input>
             </div>
             <div className="base-stat">
-              <p>INT save</p>
-              <input className="ac-input" defaultValue={stats?.intelligence_save ?? 0}></input>
+              <p className="stat-label">INT</p>
+              <input
+                className="stat-input"
+                defaultValue={stats?.intelligence_save ?? 0}
+              ></input>
             </div>
             <div className="base-stat">
-              <p>WIS save</p>
-              <input className="ac-input" defaultValue={stats?.wisdom_save ?? 0}></input>
+              <p className="stat-label">WIS</p>
+              <input
+                className="stat-input"
+                defaultValue={stats?.wisdom_save ?? 0}
+              ></input>
             </div>
             <div className="base-stat">
-              <p>CHA save</p>
-              <input className="ac-input" defaultValue={stats?.charisma_save ?? 0 }></input>
+              <p className="stat-label">CHA</p>
+              <input
+                className="stat-input"
+                defaultValue={stats?.charisma_save ?? 0}
+              ></input>
             </div>
           </div>
 
           <div className="pp-section">
+            <p className="stat-label">PP</p>
             <input
               className="pp-input"
               ref={passivePerception}
               defaultValue={calcPP(stats)}
             />
-            <p style={{ marginLeft: "5px" }}>PP</p>
           </div>
         </div>
         <div className="condition-section">

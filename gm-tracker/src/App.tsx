@@ -15,7 +15,7 @@ function App() {
         </div>
       <footer className="App-footer">
         <p>
-          Uses <a href="https://open5e.com/">Open5e</a> API
+          Work in Progress. Uses <a href="https://open5e.com/">Open5e</a> API
         </p>
       </footer>
     </div>
