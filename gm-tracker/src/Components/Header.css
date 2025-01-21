@@ -1,0 +1,29 @@
+:root {
+    --var-Header-height: 50px;
+    --var-font-small: 18px;
+    --var-font-medium: 24px;
+    --var-font-big: 30px;
+    height: 100%;
+}
+
+.App-header {
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items: center;
+    height: var(--var-Header-height);
+    width: 100%;
+    top: 0px;
+    margin-bottom: 10px;
+    position: sticky;
+}
+.header-title {
+    padding-left: 15px;
+    flex-grow: 2;
+}
+.header-links {
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    flex-grow: 1;
+}

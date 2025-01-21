@@ -14,7 +14,7 @@
   grid-template-rows: var(--var-Header-height) auto var(--var-Footer-height);
   height: 100%;
 }
-.App-header {
+/* .App-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -24,7 +24,7 @@
   margin-bottom: 10px;
   background-color: #242424;
   position: sticky;
-}
+} */
 .App-footer {
   display: flex;
   justify-content: space-between;

@@ -8,7 +8,7 @@ import {
   FaTrashAlt,
 } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
-import { MonsterStat } from "./openDnD";
+import { MonsterStat } from "../Services/openDnD";
 interface DNDCreatureCardProps {
   id: any;
   index: any;

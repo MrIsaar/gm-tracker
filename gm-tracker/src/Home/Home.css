@@ -1,0 +1,11 @@
+.home-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
+    align-items: center;
+    border-radius: 8px;
+    border: 1px solid black;
+    background: linear-gradient(135deg, #21003f 0%, #360024 100%);
+    padding: 12px;
+}
