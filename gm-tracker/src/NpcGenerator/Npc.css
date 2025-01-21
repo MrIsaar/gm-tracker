@@ -1,0 +1,13 @@
+.npc-main {
+    border-radius: 8px;
+    border: 1px solid black;
+    background: linear-gradient(135deg, #21003f 0%, #360024 100%);
+    padding: 12px;
+}
+
+.npc-card-grid {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    grid-template-columns: auto auto auto;
+    gap: 5px;
+}

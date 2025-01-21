@@ -1,7 +1,22 @@
+import "./Npc.css"
+import NpcCard from "./NpcCard";
+
 function NpcPage() {
     return (
-        <div>
-            <h1>NPC PAGE</h1>
+        <div className="npc-main">
+            NPCs
+            <div className="npc-card-grid">
+                <NpcCard />
+                <NpcCard />
+                <NpcCard />
+                <NpcCard />
+                <NpcCard />
+                <NpcCard />
+                <NpcCard />
+                <NpcCard />
+                <NpcCard />
+            </div>
+
         </div>
     );
 }
