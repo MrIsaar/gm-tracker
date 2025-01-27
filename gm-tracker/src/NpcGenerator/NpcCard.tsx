@@ -30,7 +30,7 @@ function NpcCard() {
     ];
 
 
-    const randomValueSet = (setStateFn: (value: string) => void) => { setStateFn("random") }
+    const randomValueSet = (setStateFn: (value: string) => void) => { setStateFn("Random") }
     return (
         <div className="npc-main">
             <div className="npc-card-grid">
