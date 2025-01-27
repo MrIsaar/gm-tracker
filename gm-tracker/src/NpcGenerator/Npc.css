@@ -5,9 +5,30 @@
     padding: 12px;
 }
 
-.npc-card-grid {
+.npc-grid {
     display: grid;
     grid-template-rows: auto auto auto;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto;
     gap: 5px;
+}
+
+.npc-card-grid {
+    display: grid;
+    
+    grid-template-rows: auto auto;
+    grid-template-columns: auto auto;
+    gap: 5px;
+}
+.npc-card-field {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+.npc-card-field-input {
+    border: 1px solid rgb(128, 128, 128);
+    border-radius: 8px;
+    background: gray;
+}
+.npc-card-field-label {
+    
 }

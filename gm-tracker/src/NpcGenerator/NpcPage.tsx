@@ -5,7 +5,7 @@ function NpcPage() {
     return (
         <div className="npc-main">
             NPCs
-            <div className="npc-card-grid">
+            <div className="npc-grid">
                 <NpcCard />
                 <NpcCard />
                 <NpcCard />

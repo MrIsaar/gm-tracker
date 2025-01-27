@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@fluentui/react-components": "^9.56.1",
+    "@fluentui/react-icons": "^2.0.271",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "immutability-helper": "^3.1.1",
