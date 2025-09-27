@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import update from "immutability-helper";
@@ -20,12 +20,17 @@ import {
   FluentProvider,
   teamsDarkTheme,
 } from "@fluentui/react-components";
+import { IPCInitCard } from "../TrackerPopup/TrackerPopup";
 
 const Tracker = () => {
   const [cards, setCards] = useState<
     { id: number; text: string; stats: MonsterStat | null }[]
   >([]);
   const [nextId, setNextId] = useState(1);
+
+
+  const popupRefreshCount = useRef(0);
+  const popUpWindow = useRef<WindowProxy | null>();
 
   const [dataConditions, setDataConditions] = useState<any[]>([]);
   const [conditionListLoaded, setConditionListLoaded] = useState(false);
@@ -42,6 +47,29 @@ const Tracker = () => {
     });
     return text;
   },[selectedSources]);
+
+  const openPopupTracker = () => {
+    if(!popUpWindow.current || popUpWindow.current.closed)
+    {
+      popUpWindow.current = (window.open("/gm-tracker/trackerpopup","Window","popup"));
+      
+      popupRefreshCount.current = 0;
+      
+    }
+    else if (popUpWindow)
+    {
+      popupRefreshCount.current++;
+      popUpWindow.current.postMessage(cards.map<IPCInitCard>((card,index)=> {
+        return {
+          name : card.text,
+          inititive: 1,
+          index: index,
+          id: card.id
+        } as IPCInitCard;
+      }));
+      
+    }
+  }
 
   const addCard = async () => {
     const monster = await getMonsterStats(selectedMonster);
@@ -94,6 +122,9 @@ const Tracker = () => {
       <FluentProvider theme={teamsDarkTheme}>
         <div className="tracker-main">
           <div className="tracker-ribbon">
+            <button className="ribbon-button" onClick={openPopupTracker}>
+              Player Friendly
+            </button>
             <button className="ribbon-button" onClick={clearInitiative}>
               Clear
             </button>
@@ -166,6 +197,7 @@ const Tracker = () => {
               moveCard={moveCard}
               delteCard={deleteCard}
               stats={card.stats}
+              readonlystate={false}
             />
           ))}
           </div>

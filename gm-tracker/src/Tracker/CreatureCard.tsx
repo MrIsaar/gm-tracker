@@ -12,9 +12,11 @@ import { MonsterStat } from "../Services/openDnD";
 interface DNDCreatureCardProps {
   id: any;
   index: any;
+  name?: string;
   moveCard: any;
   delteCard: any;
   stats: MonsterStat | null;
+  readonlystate: boolean;
 }
 const calcPP = (stats: MonsterStat | null) => {
   let mod =
@@ -25,7 +27,43 @@ const calcPP = (stats: MonsterStat | null) => {
   return pp;
 };
 const CreatureCard = (props: DNDCreatureCardProps) => {
-  const { id, index, moveCard, delteCard, stats } = props;
+  const { id, index, moveCard, delteCard, stats, readonlystate } = props;
+  const [name, setName] = useState(stats?.name);
+  const currentHp = useRef(null);
+  const maxHp = useRef(null);
+  const armorClass = useRef(null);
+  const passivePerception = useRef(null);
+  const initiative = useRef(null);
+  const condition = useRef(null);
+  if(readonlystate)
+    {
+      return (
+        <div className="card-grid">
+          <div className="init-col">
+            <div className="init-item">
+              <input className="init-item init-number-input" readOnly ref={initiative} />
+            </div>
+          </div>
+          <div className="name-section">
+            <input
+              className="name-input"
+              value={name}
+              readOnly
+            />
+          </div>
+          <div className="condition-section">
+            <input
+              className="condition-input"
+              ref={condition}
+              defaultValue={""}
+              readOnly
+            />
+          </div>
+        </div>
+      );
+    }
+
+
   const ref = React.useRef(null);
   const [, drop] = useDrop({
     accept: "CARD",
@@ -64,13 +102,10 @@ const CreatureCard = (props: DNDCreatureCardProps) => {
 
   drag(drop(ref));
 
-  const [name, setName] = useState(stats?.name);
-  const currentHp = useRef(null);
-  const maxHp = useRef(null);
-  const armorClass = useRef(null);
-  const passivePerception = useRef(null);
-  const initiative = useRef(null);
-  const condition = useRef(null);
+  
+
+  
+
 
   return (
     <div

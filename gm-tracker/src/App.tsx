@@ -5,6 +5,7 @@ import Header from "./Components/Header";
 import Home from "./Home/Home";
 import Tracker from "./Tracker/Tracker";
 import NpcPage from "./NpcGenerator/NpcPage";
+import TrackerPopup from "./TrackerPopup/TrackerPopup";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="/gm-tracker/initative" element={<Tracker />} />
             <Route path="/gm-tracker/npc" element={<NpcPage />} />
+            <Route path="/gm-tracker/trackerpopup" element={<TrackerPopup />} />
             <Route path="*" element={<Home />} />
           </Route>
         </Routes>
